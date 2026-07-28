@@ -1,0 +1,6 @@
+{
+  "name": "Bansos Nasional - Kemensos RI",
+  "description": "Portal Resmi Bantuan Sosial Nasional Kementerian Sosial Republik Indonesia",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
