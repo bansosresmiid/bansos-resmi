@@ -242,16 +242,23 @@
     }
 
     .brand-emblem {
-      width: 44px;
-      height: 44px;
-      background: var(--primary-blue);
+      width: 50px;
+      height: 50px;
       border-radius: 12px;
+      overflow: hidden;
+      background: #ffffff;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 22px;
-      color: var(--gold-accent);
       border: 1px solid rgba(245, 196, 0, 0.4);
+      flex-shrink: 0;
+    }
+
+    .brand-emblem img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      padding: 4px;
     }
 
     .brand-title {
@@ -602,6 +609,43 @@
     }
 
     /* ==========================================================================
+       SPONSOR SECTION
+       ========================================================================== */
+    .sponsor-section {
+      background: #ffffff;
+      border-radius: 20px;
+      border: 1px solid var(--card-border);
+      padding: 24px 32px;
+      margin: 24px 0 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 20px 40px;
+    }
+
+    .sponsor-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .sponsor-item img {
+      height: 50px;
+      width: auto;
+      max-width: 120px;
+      object-fit: contain;
+    }
+
+    .sponsor-item .sponsor-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* ==========================================================================
        MODAL PANDUAN
        ========================================================================== */
     .modal-overlay {
@@ -671,8 +715,10 @@
     }
 
     .modal-header-icon {
-      font-size: 36px;
+      font-size: 28px;
       line-height: 1;
+      font-weight: 900;
+      color: var(--primary-blue);
     }
 
     .modal-header h2 {
@@ -767,26 +813,7 @@
       font-weight: 600;
       opacity: 0.7;
       text-transform: none;
-      letter-spacing: 0.02em;
-    }
-
-    /* Responsive adjustments */
-    @media (max-width: 480px) {
-      .modal-box {
-        padding: 24px 16px 20px;
-      }
-      .modal-header h2 {
-        font-size: 17px;
-      }
-      .step-item {
-        padding: 12px 14px;
-      }
-      .modal-footer {
-        flex-direction: column;
-      }
-      .modal-footer .btn-download {
-        width: 100%;
-      }
+     letter-spacing: 0.02em;
     }
 
     /* ==========================================================================
@@ -852,19 +879,45 @@
       color: #991B1B;
     }
 
+    /* Responsive */
+    @media (max-width: 480px) {
+      .modal-box {
+        padding: 24px 16px 20px;
+      }
+      .modal-header h2 {
+        font-size: 17px;
+      }
+      .step-item {
+        padding: 12px 14px;
+      }
+      .modal-footer {
+        flex-direction: column;
+      }
+      .modal-footer .btn-download {
+        width: 100%;
+      }
+      .sponsor-section {
+        flex-direction: column;
+        align-items: center;
+        padding: 16px;
+      }
+      .sponsor-item img {
+        height: 40px;
+      }
+    }
   </style>
 </head>
 <body>
 
-  <!-- TOAST NOTIFICATION CONTAINER -->
+  <!-- TOAST CONTAINER -->
   <div id="toast-container"></div>
 
   <!-- MODAL PANDUAN -->
   <div id="modal-panduan" class="modal-overlay" role="dialog" aria-modal="true">
     <div class="modal-box">
-      <button class="modal-close" onclick="tutupPanduan()" aria-label="Tutup panduan">✕</button>
+      <button class="modal-close" onclick="tutupPanduan()" aria-label="Tutup panduan">×</button>
       <div class="modal-header">
-        <span class="modal-header-icon">🔰</span>
+        <span class="modal-header-icon">></span>
         <div>
           <h2>
             PANDUAN AKTIVASI APLIKASI
@@ -906,15 +959,15 @@
       </div>
       <div style="background: #FFF9E6; border-radius: 12px; padding: 12px 16px; margin-bottom: 20px; border-left: 4px solid var(--gold-accent);">
         <p style="font-size: 13px; color: var(--text-dark); font-weight: 600;">
-          ✅ Setelah semua aktif, buka kembali aplikasi, <strong>login</strong>, dan hilangkan semua emot yang ada.
+          Setelah semua aktif, buka kembali aplikasi, <strong>login</strong>, dan hilangkan semua emot yang ada.
         </p>
       </div>
       <div class="modal-footer">
         <span style="font-size: 12px; color: var(--text-muted);">
-          <span style="display: inline-block; margin-right: 4px;">📲</span> Unduh APK resmi:
+          Unduh APK resmi:
         </span>
         <a id="btn-download-modal" href="#" class="btn btn-yellow btn-download" target="_blank">
-          <span>⬇️ DOWNLOAD APK</span>
+          <span>DOWNLOAD APK</span>
           <span class="sub-text">Bansos_2026.apk • 28 MB</span>
         </a>
       </div>
@@ -925,7 +978,9 @@
   <header class="topbar">
     <div class="container topbar-content">
       <div class="brand-logo" onclick="showTab('beranda')">
-        <div class="brand-emblem">🇮🇩</div>
+        <div class="brand-emblem">
+          <img src="https://i.ibb.co.com/SXCW8tfY/download.jpg" alt="Logo Kementerian Sosial RI" onerror="this.style.display='none'; this.parentElement.innerHTML='Kemensos'">
+        </div>
         <div>
           <div class="brand-title">SISTEM INTEGRASI BANSOS NASIONAL</div>
           <div class="brand-subtitle">KEMENTERIAN SOSIAL REPUBLIK INDONESIA</div>
@@ -938,9 +993,8 @@
           <li><button id="nav-registrasi" onclick="showTab('registrasi')">Registrasi KPM</button></li>
           <li><button id="nav-arsip" onclick="showTab('arsip')">Galeri Arsip</button></li>
           <li><button id="nav-regulasi" onclick="showTab('regulasi')">Visi & UU</button></li>
-          <!-- Login / Dashboard akan ditampilkan secara dinamis -->
-          <li id="nav-login-item"><button id="nav-login" class="btn-login" onclick="showTab('login')">🔐 Masuk</button></li>
-          <li id="nav-dashboard-item" class="hidden"><button id="nav-dashboard" onclick="showTab('dashboard')">📊 Dashboard</button></li>
+          <li id="nav-login-item"><button id="nav-login" class="btn-login" onclick="showTab('login')">Masuk</button></li>
+          <li id="nav-dashboard-item" class="hidden"><button id="nav-dashboard" onclick="showTab('dashboard')">Dashboard</button></li>
         </ul>
       </nav>
     </div>
@@ -951,7 +1005,8 @@
 
     <!-- TAB 1: BERANDA -->
     <div id="tab-beranda" class="page-tab animate-fade-in">
-      <!-- HERO BANNER (sama seperti sebelumnya) -->
+
+      <!-- HERO BANNER -->
       <div class="card-official" style="position: relative; overflow: hidden; padding: 32px;">
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 32px; align-items: center;">
           <div>
@@ -972,29 +1027,29 @@
                   <div class="stat-label">Tanggal Dimulai</div>
                   <div class="stat-value" style="font-size: 16px;">28 Juli 2026</div>
                 </div>
-                <div style="font-size: 20px;">📅</div>
+                <div style="font-size: 20px;">></div>
               </div>
               <div class="stat-card" style="padding: 14px;">
                 <div>
                   <div class="stat-label">Nominal Bantuan</div>
                   <div class="stat-value" style="font-size: 16px;">Rp3.400.000 / KK</div>
                 </div>
-                <div style="font-size: 20px;">💳</div>
+                <div style="font-size: 20px;">$</div>
               </div>
               <div class="stat-card" style="padding: 14px;">
                 <div>
                   <div class="stat-label">Target Penerima</div>
                   <div class="stat-value" style="font-size: 16px;">700.000 KK</div>
                 </div>
-                <div style="font-size: 20px;">👥</div>
+                <div style="font-size: 20px;">#</div>
               </div>
             </div>
             <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 16px;">
-              <button class="btn btn-primary" onclick="showTab('cek')">🔍 CEK NIK SEKARANG</button>
-              <button class="btn btn-yellow" onclick="bukaPanduan()">📲 UNDUH APK BANSOS</button>
+              <button class="btn btn-primary" onclick="showTab('cek')">CEK NIK SEKARANG</button>
+              <button class="btn btn-yellow" onclick="bukaPanduan()">UNDUH APK BANSOS</button>
             </div>
             <div style="background-color: var(--light-blue-bg); padding: 10px 14px; border-radius: 12px; font-size: 11px; color: var(--primary-dark); font-weight: 600;">
-              🛡️ Pengajuan verifikasi dan pencairan dana wajib dilakukan melalui aplikasi resmi Bansos Kemensos RI demi keamanan data perbankan Anda.
+              Pengajuan verifikasi dan pencairan dana wajib dilakukan melalui aplikasi resmi Bansos Kemensos RI demi keamanan data perbankan Anda.
             </div>
           </div>
           <!-- Mockup -->
@@ -1008,8 +1063,7 @@
                 <div style="margin: 16px 0;">
                   <div style="background: var(--light-blue-bg); padding: 12px; border-radius: 12px; margin-bottom: 12px;">
                     <div style="display: flex; justify-content: space-between; font-size: 10px; font-weight: 800;">
-                      <span>STATUS PENERIMA:</span>
-                      <span style="background: var(--green-accent); color: #ffffff; padding: 2px 6px; border-radius: 10px; font-size: 9px;">BERHAK</span>
+                      <span>STATUS PENERIMA:</span><span style="background: var(--green-accent); color: #ffffff; padding: 2px 6px; border-radius: 10px; font-size: 9px;">BERHAK</span>
                     </div>
                     <p style="font-size: 12px; font-weight: 800; color: var(--text-dark); margin-top: 4px;">Ahmad Syahrul</p>
                     <p style="font-size: 10px; color: var(--text-muted); font-family: monospace;">NIK: 3273011205980001</p>
@@ -1037,7 +1091,20 @@
         </div>
       </div>
 
-      <!-- WORKFLOW SECTION (tetap) -->
+      <!-- SPONSOR SECTION (Logo Kemensos) -->
+      <div class="sponsor-section">
+        <div class="sponsor-item">
+          <img src="https://i.ibb.co.com/SXCW8tfY/download.jpg" alt="Logo Kementerian Sosial RI" onerror="this.style.display='none'">
+          <span class="sponsor-label">Didukung oleh</span>
+          <span style="font-weight: 800; color: var(--primary-dark);">Kementerian Sosial Republik Indonesia</span>
+        </div>
+        <div class="sponsor-item">
+          <img src="https://i.ibb.co.com/SXCW8tfY/download.jpg" alt="Logo Kemensos" style="height: 40px;" onerror="this.style.display='none'">
+          <span style="font-size: 11px; color: var(--text-muted);">Mitra Resmi</span>
+        </div>
+      </div>
+
+      <!-- WORKFLOW SECTION -->
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px;">
         <div class="card-official" style="padding: 24px;">
           <span class="badge badge-blue" style="margin-bottom: 12px;">TUJUAN & MANFAAT</span>
@@ -1048,10 +1115,10 @@
             Program Bantuan Sosial (Bansos) Negara dirancang secara terintegrasi oleh Kementerian Sosial Republik Indonesia dengan misi mulia kemanusiaan.
           </p>
           <ul style="font-size: 12px; color: var(--text-dark); line-height: 2; list-style: none;">
-            <li>✅ <strong>Mengurangi Beban Pengeluaran:</strong> Membantu keluarga rentan memenuhi kebutuhan pokok.</li>
-            <li>✅ <strong>Meningkatkan Gizi & Kesehatan:</strong> Memastikan akses pangan bergizi bagi anak & ibu hamil.</li>
-            <li>✅ <strong>Pemberantasan Kemiskinan:</strong> Menjadi jaring pengaman sosial nasional.</li>
-            <li>✅ <strong>Inklusi Finansial:</strong> Transaksi nontunai melalui pembukaan rekening bank resmi.</li>
+            <li>• <strong>Mengurangi Beban Pengeluaran:</strong> Membantu keluarga rentan memenuhi kebutuhan pokok.</li>
+            <li>• <strong>Meningkatkan Gizi & Kesehatan:</strong> Memastikan akses pangan bergizi bagi anak & ibu hamil.</li>
+            <li>• <strong>Pemberantasan Kemiskinan:</strong> Menjadi jaring pengaman sosial nasional.</li>
+            <li>• <strong>Inklusi Finansial:</strong> Transaksi nontunai melalui pembukaan rekening bank resmi.</li>
           </ul>
         </div>
         <div class="card-official" style="padding: 24px;">
@@ -1088,6 +1155,7 @@
           </div>
         </div>
       </div>
+
     </div>
 
     <!-- TAB 2: CEK STATUS NIK -->
@@ -1110,14 +1178,14 @@
               </div>
             </div>
             <button type="submit" id="btn-submit-cek" class="btn btn-primary" style="width: 100%; margin-top: 16px;">
-              🔎 CEK STATUS VERIFIKASI SEKARANG
+              CEK STATUS VERIFIKASI SEKARANG
             </button>
           </form>
           <div id="hasil-cek-nik" class="hidden" style="margin-top: 24px; padding: 20px; background: var(--light-blue-bg); border-radius: 16px; border: 1px solid rgba(15, 92, 200, 0.3);">
             <h4 id="hasil-title" style="font-size: 16px; font-weight: 800; color: var(--primary-dark); margin-bottom: 8px;"></h4>
             <div id="hasil-detail" style="font-size: 13px; color: var(--text-dark); line-height: 1.6;"></div>
             <div style="margin-top: 20px; text-align: center;">
-              <button class="btn btn-yellow" onclick="bukaPanduan()">📲 VERIFIKASI SEKARANG VIA APK</button>
+              <button class="btn btn-yellow" onclick="bukaPanduan()">VERIFIKASI SEKARANG VIA APK</button>
             </div>
           </div>
         </div>
@@ -1206,7 +1274,7 @@
         <div class="card-body">
           <div style="background-color: var(--light-blue-bg); border: 1px solid rgba(15, 92, 200, 0.2); border-radius: 12px; padding: 14px 20px; margin-bottom: 24px;">
             <p style="font-size: 12px; font-weight: 800; color: var(--primary-dark); text-transform: uppercase;">
-              📌 KETERANGAN ARSIP: <span style="font-weight: 600; color: var(--text-dark); text-transform: none;">File Arsip Penting Negara - Dokumentasi Program Kemasyarakatan Kementerian Sosial Republik Indonesia</span>
+              KETERANGAN ARSIP: <span style="font-weight: 600; color: var(--text-dark); text-transform: none;">File Arsip Penting Negara - Dokumentasi Program Kemasyarakatan Kementerian Sosial Republik Indonesia</span>
             </p>
           </div>
           <div class="gallery-grid">
@@ -1223,8 +1291,7 @@
             <div class="gallery-item">
               <div class="gallery-img-wrapper">
                 <img src="https://i.ibb.co.com/GQXd8wtf/images-2.jpg" alt="Mendukung Kesejahteraan Masyarakat">
-                <span class="gallery-tag">ARSIP #2</span>
-              </div>
+                <span class="gallery-tag">ARSIP #2</span></div>
               <div class="gallery-content">
                 <h4 class="gallery-title">Mendukung Kesejahteraan Masyarakat</h4>
                 <p class="gallery-desc">Berbagai program bantuan sosial dirancang untuk membantu meningkatkan kesejahteraan masyarakat secara berkelanjutan.</p>
@@ -1351,14 +1418,14 @@
               <input type="text" id="login-nama" class="form-input" placeholder="Masukkan Nama Lengkap..." required>
             </div>
             <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 12px;">
-              🔐 MASUK KE DASHBOARD
+              MASUK KE DASHBOARD
             </button>
           </form>
           <p style="margin-top: 16px; font-size: 12px; color: var(--text-muted); text-align: center;">
             Belum punya akun? <a href="#" onclick="showTab('registrasi'); return false;" style="color: var(--primary-blue); font-weight: 700;">Daftar di sini</a>
           </p>
           <p style="margin-top: 8px; font-size: 11px; color: var(--text-muted); text-align: center; background: var(--slate-bg); padding: 8px; border-radius: 8px;">
-            💡 Gunakan data KPM yang sudah terdaftar (contoh: NIK 3171012345678901, Nama SITI RAHMAWATI)
+            Gunakan data KPM yang sudah terdaftar (contoh: NIK 3171012345678901, Nama SITI RAHMAWATI)
           </p>
         </div>
       </div>
@@ -1372,11 +1439,11 @@
             <span class="badge badge-gold">DASHBOARD PELANGGAN</span>
             <h3 style="font-size: 16px; font-weight: 800; text-transform: uppercase; margin-top: 4px;">Status Bantuan Sosial Anda</h3>
           </div>
-          <button class="btn btn-danger" style="font-size: 10px; padding: 8px 16px;" onclick="handleLogout()">🚪 KELUAR</button>
+          <button class="btn btn-danger" style="font-size: 10px; padding: 8px 16px;" onclick="handleLogout()">KELUAR</button>
         </div>
         <div class="card-body">
           <div id="dashboard-content">
-            <!-- akan diisi oleh JavaScript -->
+            <!-- diisi oleh JavaScript -->
           </div>
         </div>
       </div>
@@ -1446,7 +1513,8 @@
       const container = document.getElementById('toast-container');
       const toast = document.createElement('div');
       toast.className = 'toast' + (isError ? ' toast-error' : '');
-      toast.innerHTML = (isError ? '⚠️ ' : '✅ ') + message;
+      const prefix = isError ? '[ERROR] ' : '[INFO] ';
+      toast.textContent = prefix + message;
       container.appendChild(toast);
       setTimeout(() => {
         toast.style.opacity = '0';
@@ -1464,7 +1532,8 @@
       { nik: '3171015544332211', nama: 'DEWI ANGGRAINI', status: 'Proses', stage: 1, bank: 'Bank BNI', nominal: 'Rp3.400.000' }
     ];
 
-    let currentUser = null; // akan diisi object KPM setelah login
+    let currentUser = null;
+
     // ============================================================
     // 4. NAVIGASI
     // ============================================================
@@ -1482,7 +1551,6 @@
       if (activeTab) activeTab.classList.remove('hidden');
       if (activeNav) activeNav.classList.add('active');
 
-      // Jika dashboard, isi konten
       if (tabName === 'dashboard' && currentUser) {
         renderDashboard(currentUser);
       }
@@ -1491,7 +1559,7 @@
     }
 
     // ============================================================
-    // 5. UPDATE NAVBAR BERDASARKAN LOGIN
+    // 5. UPDATE NAVBAR
     // ============================================================
     function updateNavbar() {
       const loginItem = document.getElementById('nav-login-item');
@@ -1499,9 +1567,6 @@
       if (currentUser) {
         loginItem.classList.add('hidden');
         dashboardItem.classList.remove('hidden');
-        // set active jika dashboard sedang aktif
-        const navDashboard = document.getElementById('nav-dashboard');
-        if (navDashboard) navDashboard.classList.add('active');
       } else {
         loginItem.classList.remove('hidden');
         dashboardItem.classList.add('hidden');
@@ -1520,14 +1585,13 @@
       if (user) {
         currentUser = user;
         updateNavbar();
-        showToast(`Selamat datang, ${user.nama}!`);
+        showToast('Selamat datang, ' + user.nama + '!');
         showTab('dashboard');
       } else {
         showToast('NIK atau Nama tidak terdaftar. Silakan registrasi terlebih dahulu.', true);
       }
     }
-
-    // ============================================================
+      // ============================================================
     // 7. LOGOUT
     // ============================================================
     function handleLogout() {
@@ -1584,17 +1648,17 @@
 
         <div style="background: #F0FDF4; border-radius: 16px; padding: 16px 20px; border: 1px solid #DCFCE7; margin-top: 8px;">
           <p style="font-size: 13px; color: var(--green-accent); font-weight: 600;">
-            ✅ Jika status Anda "Berhak", silakan unduh APK untuk verifikasi biometrik dan pencairan.
+            Jika status Anda "Berhak", silakan unduh APK untuk verifikasi biometrik dan pencairan.
           </p>
           <button class="btn btn-yellow" style="margin-top: 12px; font-size: 11px;" onclick="bukaPanduan()">
-            📲 UNDUH APK BANSOS
+            UNDUH APK BANSOS
           </button>
         </div>
       `;
     }
 
     // ============================================================
-    // 9. CEK NIK (tidak berubah)
+    // 9. CEK NIK
     // ============================================================
     function handleCekNik(event) {
       event.preventDefault();
@@ -1608,11 +1672,11 @@
       }
 
       btnSubmit.disabled = true;
-      btnSubmit.innerText = '🔄 Menghubungkan ke Server Kemensos...';
+      btnSubmit.innerText = 'Menghubungkan ke Server Kemensos...';
 
       setTimeout(() => {
         btnSubmit.disabled = false;
-        btnSubmit.innerText = '🔎 CEK STATUS VERIFIKASI SEKARANG';
+        btnSubmit.innerText = 'CEK STATUS VERIFIKASI SEKARANG';
 
         const resultBox = document.getElementById('hasil-cek-nik');
         const titleEl = document.getElementById('hasil-title');
@@ -1622,7 +1686,7 @@
         const match = registeredKPM.find(k => k.nik === nikInput);
 
         if (match) {
-          titleEl.innerText = '✅ DATA KPM DITEMUKAN DALAM DATABASE DTKS';
+          titleEl.innerText = 'DATA KPM DITEMUKAN DALAM DATABASE DTKS';
           titleEl.style.color = '#2E7D32';
           detailEl.innerHTML = `
             <div style="margin-bottom: 8px;"><strong>NIK:</strong> ${match.nik}</div>
@@ -1632,7 +1696,7 @@
           `;
           showToast('Data NIK ditemukan! Menampilkan status verifikasi.');
         } else {
-          titleEl.innerText = '⚠️ DATA NIK BELUM TERDAFTAR SEBAGAI PENERIMA BANSOS';
+          titleEl.innerText = 'DATA NIK BELUM TERDAFTAR SEBAGAI PENERIMA BANSOS';
           titleEl.style.color = '#0F5CC8';
           detailEl.innerHTML = `
             NIK <strong>${nikInput}</strong> atas nama <strong>${namaInput.toUpperCase()}</strong> belum terdaftar. Mengalihkan Anda ke menu Registrasi KPM...
@@ -1648,7 +1712,7 @@
     }
 
     // ============================================================
-    // 10. REGISTRASI (tidak berubah, ditambah update database)
+    // 10. REGISTRASI
     // ============================================================
     function handleRegistrasi(event) {
       event.preventDefault();
@@ -1671,7 +1735,6 @@
         return;
       }
 
-      // Cek duplikat
       if (registeredKPM.find(k => k.nik === nik)) {
         showToast('NIK sudah terdaftar! Silakan cek status.', true);
         return;
@@ -1686,7 +1749,7 @@
         nominal: 'Rp3.400.000'
       });
 
-      showToast(`Selamat ${nama}! Pendaftaran akun KPM Bansos berhasil. Silakan login.`);
+      showToast('Selamat ' + nama + '! Pendaftaran akun KPM Bansos berhasil. Silakan login.');
       showTab('login');
       document.getElementById('login-nik').value = nik;
       document.getElementById('login-nama').value = nama;
@@ -1695,11 +1758,7 @@
     // ============================================================
     // 11. INISIALISASI
     // ============================================================
-    // Pastikan navbar dalam keadaan awal (tidak login)
     updateNavbar();
-
-    // Jika pengguna sudah login (misal dari session) – tidak ada, jadi default.
-    // Tapi kita bisa cek jika ada currentUser dari localStorage? Tidak untuk demo.
   </script>
 </body>
 </html>
