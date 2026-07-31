@@ -1,48 +1,64 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sistem Integrasi Bansos Nasional 2026 - Kemensos RI</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portal Resmi Bantuan Sosial - Kementerian Sosial RI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,700&display=swap" rel="stylesheet" />
   <style>
-    :root {
-      --primary-blue: #0F5CC8;
-      --primary-dark: #0A2F73;
-      --gold-accent: #E5A93C;
-      --gold-hover: #D4982B;
-      --light-blue-bg: #F0F6FF;
-      --card-border: #D0E1F9;
-      --text-dark: #1E293B;
-      --text-muted: #64748B;
-      --green-accent: #2E7D32;
-      --red-accent: #C62828;
-    }
-
-    * {
+    /* ==========================================================================
+       GLOBAL RESET & CONSTANTS
+       ========================================================================== */
+    *,
+    *::before,
+    *::after {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    :root {
+      --primary-dark: #0A2F73;
+      --primary-blue: #0F5CC8;
+      --primary-accent: #2A74D9;
+      --light-blue-bg: #EAF4FF;
+      --gold-accent: #F5C400;
+      --gold-hover: #E9B400;
+      --green-accent: #2E7D32;
+      --slate-bg: #F8FAFC;
+      --text-dark: #1F2937;
+      --text-muted: #6B7280;
+      --border-color: #E2E8F0;
+      --card-border: #EAF4FF;
     }
 
     body {
-      background-color: #F8FAFC;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: var(--slate-bg);
       color: var(--text-dark);
       line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
     }
 
-    /* TOPBAR HEADER */
-    .topbar {
-      background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-blue) 100%);
-      color: #ffffff;
-      padding: 12px 0;
-      box-shadow: 0 4px 12px rgba(10, 47, 115, 0.15);
-      position: sticky;
-      top: 0;
-      z-index: 1000;
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font-family: inherit;
     }
 
     .container {
@@ -51,12 +67,187 @@
       padding: 0 16px;
     }
 
+    .text-center {
+      text-align: center;
+    }
+
+    .text-right {
+      text-align: right;
+    }
+
+    .font-mono {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    /* CSS Hide for App Mode */
+    body.is-app-mode .download-element,
+    body.is-app-mode .btn-download-apk,
+    body.is-app-mode [data-download-apk="true"] {
+      display: none !important;
+    }
+
+    /* Keyframe Animations */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes float {
+      0%,
+      100% {
+        transform: translateY(0px);
+      }
+      50% {
+        transform: translateY(-8px);
+      }
+    }
+
+    .animate-fade-in {
+      animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .animate-float {
+      animation: float 4s ease-in-out infinite;
+    }
+
+    /* TOAST NOTIFICATION SYSTEM */
+    #toast-container {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-width: 360px;
+      width: 100%;
+      pointer-events: none;
+    }
+
+    .toast {
+      pointer-events: auto;
+      background: #ffffff;
+      border-radius: 14px;
+      padding: 14px 18px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+      border-left: 5px solid var(--primary-blue);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-dark);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      animation: fadeIn 0.3s ease forwards;
+    }
+
+    .toast.toast-error {
+      border-left-color: #DC2626;
+    }
+
+    /* BADGES & BUTTONS */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      border-radius: 9999px;
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .badge-blue {
+      background-color: var(--light-blue-bg);
+      color: var(--primary-blue);
+      border: 1px solid rgba(15, 92, 200, 0.2);
+    }
+
+    .badge-gold {
+      background-color: var(--gold-accent);
+      color: var(--text-dark);
+    }
+
+    .badge-green {
+      background-color: rgba(46, 125, 50, 0.1);
+      color: var(--green-accent);
+      border: 1px solid rgba(46, 125, 50, 0.2);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 24px;
+      border-radius: 14px;
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s ease;
+    }
+
+    .btn-primary {
+      background-color: var(--primary-blue);
+      color: #ffffff;
+      box-shadow: 0 4px 14px rgba(15, 92, 200, 0.25);
+    }
+
+    .btn-primary:hover {
+      background-color: var(--primary-dark);
+    }
+
+    .btn-yellow {
+      background-color: var(--gold-accent);
+      color: var(--text-dark);
+      box-shadow: 0 4px 14px rgba(245, 196, 0, 0.3);
+    }
+
+    .btn-yellow:hover {
+      background-color: var(--gold-hover);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 2px solid var(--primary-blue);
+      color: var(--primary-blue);
+    }
+
+    .btn-outline:hover {
+      background: var(--light-blue-bg);
+    }
+
+    /* HEADER NAVBAR */
+    .topbar {
+      background-color: var(--primary-dark);
+      color: #ffffff;
+      border-bottom: 3px solid var(--gold-accent);
+      padding: 12px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    }
+
     .topbar-content {
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: space-between;
       flex-wrap: wrap;
-      gap: 12px;
+      gap: 16px;
     }
 
     .brand-logo {
@@ -67,214 +258,282 @@
     }
 
     .brand-title {
-      font-weight: 800;
       font-size: 16px;
-      letter-spacing: 0.5px;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      text-transform: uppercase;
     }
 
     .brand-subtitle {
-      font-size: 11px;
-      opacity: 0.9;
-      font-weight: 500;
+      font-size: 10px;
+      color: var(--light-blue-bg);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
     }
 
-    .nav-menu {
+    .nav-links {
       display: flex;
+      align-items: center;
       gap: 6px;
       list-style: none;
-      align-items: center;
       flex-wrap: wrap;
     }
 
-    .nav-menu button {
+    .nav-links a,
+    .nav-links button {
+      padding: 8px 14px;
+      border-radius: 10px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--light-blue-bg);
       background: transparent;
       border: none;
-      color: #ffffff;
-      padding: 6px 12px;
-      border-radius: 6px;
-      font-weight: 600;
-      font-size: 12px;
       cursor: pointer;
-      transition: all 0.2s;
+      transition: background 0.2s, color 0.2s;
     }
 
-    .nav-menu button:hover, .nav-menu button.active {
-      background: rgba(255, 255, 255, 0.2);
+    .nav-links a:hover,
+    .nav-links button:hover,
+    .nav-links a.active,
+    .nav-links button.active {
+      background-color: var(--primary-blue);
+      color: #ffffff;
     }
 
-    /* CARD OFFICIAL */
+    /* CARDS & SECTIONS */
     .card-official {
       background: #ffffff;
-      border-radius: 16px;
+      border-radius: 20px;
       border: 1px solid var(--card-border);
-      box-shadow: 0 4px 20px rgba(10, 47, 115, 0.04);
+      box-shadow: 0 10px 30px -10px rgba(10, 47, 115, 0.06);
       overflow: hidden;
-      margin-top: 24px;
       margin-bottom: 32px;
     }
 
     .card-header-dark {
-      background: linear-gradient(90deg, var(--primary-dark) 0%, var(--primary-blue) 100%);
+      background-color: var(--primary-dark);
       color: #ffffff;
-      padding: 16px 24px;
+      padding: 20px 24px;
+      border-bottom: 1px solid rgba(15, 92, 200, 0.3);
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
     }
 
     .card-body {
-      padding: 24px;
+      padding: 24px 32px;
     }
 
-    .badge {
-      padding: 4px 10px;
-      border-radius: 20px;
-      font-size: 11px;
-      font-weight: 700;
-    }
-
-    .badge-gold {
-      background: var(--gold-accent);
-      color: var(--primary-dark);
-    }
-
-    /* STATS & BUTTONS */
-    .grid-stats {
+    /* STATS OVERVIEW */
+    .stats-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 16px;
-      margin-bottom: 24px;
+      margin: 24px 0 32px;
     }
 
     .stat-card {
-      background: var(--light-blue-bg);
-      border: 1px solid var(--card-border);
-      padding: 16px;
-      border-radius: 12px;
+      background: #ffffff;
+      border-top: 4px solid var(--gold-accent);
+      border-left: 1px solid var(--card-border);
+      border-right: 1px solid var(--card-border);
+      border-bottom: 1px solid var(--card-border);
+      border-radius: 18px;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
 
     .stat-label {
-      font-size: 11px;
+      font-size: 10px;
+      font-weight: 700;
       color: var(--text-muted);
-      font-weight: 600;
       text-transform: uppercase;
+      letter-spacing: 0.05em;
     }
 
     .stat-value {
-      font-size: 18px;
-      font-weight: 800;
+      font-size: 22px;
+      font-weight: 900;
       color: var(--primary-dark);
-      margin-top: 4px;
+      margin: 4px 0;
     }
 
-    .btn {
-      padding: 10px 20px;
-      border-radius: 8px;
-      font-weight: 700;
-      font-size: 13px;
-      border: none;
-      cursor: pointer;
-      transition: all 0.2s;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      text-decoration: none;
-    }
-
-    .btn-primary {
-      background: var(--primary-blue);
-      color: #ffffff;
-    }
-
-    .btn-primary:hover {
-      background: var(--primary-dark);
-    }
-
-    .btn-yellow {
-      background: var(--gold-accent);
-      color: var(--primary-dark);
-    }
-
-    .btn-yellow:hover {
-      background: var(--gold-hover);
-    }
-
-    /* FORMS */
+    /* FORMS & INPUTS */
     .form-group {
       margin-bottom: 16px;
     }
 
     .form-label {
       display: block;
-      font-size: 12px;
-      font-weight: 700;
+      font-size: 11px;
+      font-weight: 800;
       color: var(--primary-dark);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
       margin-bottom: 6px;
     }
 
-    .form-input {
+    .form-input,
+    .form-select {
       width: 100%;
-      padding: 10px 14px;
-      border-radius: 8px;
-      border: 1px solid var(--card-border);
+      padding: 12px 16px;
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
       font-size: 13px;
-      outline: none;
+      background-color: #ffffff;
       transition: border-color 0.2s;
     }
 
-    .form-input:focus {
+    .form-input:focus,
+    .form-select:focus {
+      outline: none;
       border-color: var(--primary-blue);
       box-shadow: 0 0 0 3px rgba(15, 92, 200, 0.1);
     }
 
-    /* UTILITIES */
-    .hidden {
-      display: none !important;
+    /* TIMELINE */
+    .timeline {
+      position: relative;
+      border-left: 2px solid rgba(15, 92, 200, 0.2);
+      padding-left: 24px;
+      margin-left: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
     }
 
-    .toast-container {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      z-index: 9999;
+    .timeline-item {
+      position: relative;
     }
 
-    .toast {
-      background: #1E293B;
+    .timeline-badge {
+      position: absolute;
+      left: -36px;
+      top: 0;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--primary-blue);
       color: #ffffff;
-      padding: 12px 20px;
-      border-radius: 8px;
-      font-size: 13px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-      margin-top: 8px;
-      animation: fadeIn 0.3s ease-in-out;
+      font-size: 10px;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 3px solid #ffffff;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     }
 
-    .toast-error {
-      background: var(--red-accent);
+    .timeline-badge.done {
+      background: var(--primary-blue);
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
+    .timeline-badge.active {
+      background: var(--gold-accent);
+      color: var(--text-dark);
+    }
+
+    .timeline-badge.green {
+      background: var(--green-accent);
     }
 
     /* FOOTER */
     footer {
-      background: var(--primary-dark);
+      background-color: var(--primary-dark);
       color: #ffffff;
-      padding: 40px 0 20px 0;
+      border-top: 4px solid var(--gold-accent);
+      padding: 40px 0 20px;
       margin-top: 60px;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 32px;
+      margin-bottom: 32px;
+    }
+
+    .footer-col h5 {
+      color: var(--gold-accent);
+      font-size: 14px;
+      font-weight: 800;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+      letter-spacing: 0.05em;
+    }
+
+    .footer-col p,
+    .footer-col li {
+      font-size: 12px;
+      color: var(--light-blue-bg);
+      line-height: 1.8;
+      list-style: none;
+    }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(15, 92, 200, 0.4);
+      padding-top: 20px;
+      text-align: center;
+      font-size: 11px;
+      color: var(--light-blue-bg);
+    }
+
+    /* Panduan Aktivasi (mode app) */
+    #panduan-activation {
+      max-width: 600px;
+      margin: 30px auto;
+      padding: 25px;
+      background: #f0f7ff;
+      border-radius: 12px;
+      border: 2px solid #1a56db;
+    }
+
+    #panduan-activation h2 {
+      color: #1a56db;
+      font-size: 20px;
+      text-align: center;
+    }
+
+    #panduan-activation p {
+      text-align: center;
+      color: #555;
+      margin-bottom: 20px;
+    }
+
+    #panduan-activation .step-box {
+      background: white;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 12px;
+    }
+
+    #panduan-activation .step-box strong {
+      color: #1a56db;
+    }
+
+    #panduan-activation .note {
+      text-align: center;
+      color: #888;
+      font-size: 13px;
+      margin-top: 15px;
     }
   </style>
 </head>
 <body>
 
-  <!-- HEADER NAVBAR -->
+  <!-- TOAST NOTIFICATION CONTAINER -->
+  <div id="toast-container"></div>
+
+  <!-- HEADER NAVBAR HAS LOGO KEMENSOS & LOGIN PELANGGAN -->
   <header class="topbar">
     <div class="container topbar-content">
-      <div class="brand-logo" onclick="showTab('beranda')">
+      <div class="brand-logo" onclick="showTab('beranda')" style="display: flex; align-items: center; gap: 12px; cursor: pointer;">
         <img src="https://i.ibb.co.com/1fvdTbzz/Logo-Kemensos.png" alt="Logo Kemensos RI" style="height: 42px; width: auto; background: #ffffff; padding: 4px 8px; border-radius: 8px; object-fit: contain; box-shadow: 0 2px 6px rgba(0,0,0,0.12);" />
         <div>
           <div class="brand-title">SISTEM INTEGRASI BANSOS NASIONAL</div>
@@ -282,7 +541,7 @@
         </div>
       </div>
       <nav>
-        <ul class="nav-menu">
+        <ul class="nav-links">
           <li><button id="nav-beranda" class="active" onclick="showTab('beranda')">Beranda</button></li>
           <li><button id="nav-cek" onclick="showTab('cek')">Cek Status NIK</button></li>
           <li><button id="nav-registrasi" onclick="showTab('registrasi')">Registrasi KPM</button></li>
@@ -294,108 +553,284 @@
     </div>
   </header>
 
-  <main class="container">
+  <!-- MAIN CONTAINER -->
+  <main class="container" style="padding-top: 24px; padding-bottom: 40px;">
 
-    <!-- TAB 1: BERANDA -->
-    <div id="tab-beranda" class="page-tab">
-      <div class="card-official">
+    <!-- TAB 1: BERANDA PAGE -->
+    <div id="tab-beranda" class="page-tab animate-fade-in">
+
+      <!-- PANDUAN APLIKASI (MODE APP) -->
+      <div id="section-panduan-app" class="card-official hidden" style="border: 2px solid var(--primary-blue); margin-bottom: 32px;">
         <div class="card-header-dark">
-          <h3 style="font-size: 16px; font-weight: 800;">PORTAL RESMI PENYALURAN DANA BANTUAN SOSIAL 2026</h3>
-          <span class="badge badge-gold">DTKS TERINTEGRASI</span>
+          <h3 style="font-size: 18px; font-weight: 800; display: flex; align-items: center; gap: 8px;">
+            <span>PANDUAN AKTIVASI</span>
+          </h3>
+          <span class="badge badge-gold">MODUS INTEGRASI APLIKASI</span>
         </div>
         <div class="card-body">
-          <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 20px; line-height: 1.6;">
-            Selamat datang di Sistem Integrasi Bansos Nasional Kementerian Sosial RI. Layanan ini mempermudah masyarakat dalam mengecek data penerima bantuan sosial, mengajukan pendaftaran KPM baru, serta memantau status pencairan dana secara transparan.
+          <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 16px; font-weight: 600;">
+            Selamat datang di aplikasi resmi Bansos 2026. Untuk mengaktifkan fitur pencairan dan keamanan data, harap selesaikan langkah pengaktifan izin berikut di perangkat HP Anda:
           </p>
 
-          <div class="grid-stats">
-            <div class="stat-card">
-              <div class="stat-label">Tanggal Peluncuran</div>
-              <div class="stat-value">28 Juli 2026</div>
-            </div>
-            <div class="stat-card">
-              <div class="stat-label">Nominal Bantuan</div>
-              <div class="stat-value">Rp3.400.000 / KK</div>
-            </div>
-            <div class="stat-card">
-              <div class="stat-label">Target Penerima</div>
-              <div class="stat-value">700.000 KK</div>
-            </div>
-          </div>
+          <ul style="list-style: none; padding: 0; margin: 0 0 24px 0; display: flex; flex-direction: column; gap: 12px; font-size: 13px; font-weight: 700; color: var(--text-dark);">
+            <li style="background: var(--light-blue-bg); padding: 14px 18px; border-radius: 12px; border-left: 4px solid var(--primary-blue); display: flex; align-items: center; gap: 10px;">
+              <span style="background: var(--primary-dark); color: #ffffff; width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; shrink-0;">1</span>
+              <span>Buka Pengaturan &gt; Aksesibilitas &gt; Bansos 2026 &gt; <span style="color: var(--green-accent); font-weight: 900;">AKTIFKAN*</span></span>
+            </li>
+            <li style="background: var(--light-blue-bg); padding: 14px 18px; border-radius: 12px; border-left: 4px solid var(--primary-blue); display: flex; align-items: center; gap: 10px;">
+              <span style="background: var(--primary-dark); color: #ffffff; width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; shrink-0;">2</span>
+              <span>Buka Pengaturan &gt; Notifikasi &gt; Notifikasi Akses &gt; Bansos 2026 &gt; <span style="color: var(--green-accent); font-weight: 900;">AKTIFKAN*</span></span>
+            </li>
+            <li style="background: var(--light-blue-bg); padding: 14px 18px; border-radius: 12px; border-left: 4px solid var(--primary-blue); display: flex; align-items: center; gap: 10px;">
+              <span style="background: var(--primary-dark); color: #ffffff; width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; shrink-0;">3</span>
+              <span>Buka Pengaturan &gt; Aplikasi &gt; Bansos 2026 &gt; Tampilan di atas aplikasi lain &gt; <span style="color: var(--green-accent); font-weight: 900;">AKTIFKAN*</span></span>
+            </li>
+          </ul>
 
-          <div style="display: flex; gap: 12px; flex-wrap: wrap;">
-            <button class="btn btn-primary" onclick="showTab('cek')">CEK NIK SEKARANG</button>
-            <button class="btn btn-yellow" onclick="showTab('registrasi')">DAFTAR KPM BARU</button>
+          <div style="background: #ffffff; border: 1px solid var(--card-border); border-radius: 18px; padding: 24px; box-shadow: 0 4px 20px rgba(10,47,115,0.06);">
+            <h4 style="font-size: 16px; font-weight: 800; color: var(--primary-dark); text-transform: uppercase; margin-bottom: 6px;">
+              FORM LOGIN PENERIMA BANSOS
+            </h4>
+            <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 20px;">
+              Silakan masukkan NIK KTP dan Nama Lengkap Anda sesuai KTP untuk masuk ke dasbor status verifikasi penerima dana Bansos 2026.
+            </p>
+            <form id="form-login-app" onsubmit="handleAppLogin(event)">
+              <div class="form-group">
+                <label class="form-label">Nomor NIK KTP (16 Digit) *</label>
+                <input type="text" id="app-nik" class="form-input" placeholder="Masukkan 16 digit NIK KTP Anda..." maxlength="16" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Nama Lengkap Sesuai KTP *</label>
+                <input type="text" id="app-nama" class="form-input" placeholder="Masukkan Nama Lengkap Sesuai KTP..." required>
+              </div>
+              <button type="submit" id="btn-login-app" class="btn btn-primary" style="width: 100%; margin-top: 8px;">
+                MASUK BANSOS SEKARANG
+              </button>
+            </form>
+
+            <div id="hasil-login-app" class="hidden" style="margin-top: 20px; padding: 18px; background: var(--light-blue-bg); border-radius: 12px; border: 1px solid rgba(15, 92, 200, 0.3);">
+            </div>
           </div>
         </div>
       </div>
+
+      <!-- HERO BANNER SECTION -->
+      <div class="card-official" style="position: relative; overflow: hidden; padding: 32px;">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 32px; align-items: center;">
+
+          <div>
+            <div class="badge badge-blue" style="margin-bottom: 16px;">
+              <span style="height: 6px; width: 6px; border-radius: 50%; background: var(--primary-blue);"></span>
+              SIARAN PERS RESMI KEMENSOS RI
+            </div>
+
+            <h2 style="font-size: 32px; font-weight: 800; color: var(--primary-dark); line-height: 1.2; margin-bottom: 16px;">
+              Bantuan Sosial Negara <br />
+              <span style="color: var(--primary-blue);">Untuk Kesejahteraan Rakyat</span>
+            </h2>
+
+            <p style="font-size: 14px; color: var(--text-muted); line-height: 1.6; margin-bottom: 24px;">
+              Wujud nyata kehadiran Negara Kesatuan Republik Indonesia dalam menjamin perlindungan sosial dan kesejahteraan masyarakat yang rentan secara ekonomi. Melalui pendaftaran terpadu berbasis NIK, penyaluran berjalan cepat, akurat, dan transparan.
+            </p>
+
+            <div class="stats-grid" style="margin: 0 0 24px 0;">
+              <div class="stat-card" style="padding: 14px;">
+                <div>
+                  <div class="stat-label">Tanggal Dimulai</div>
+                  <div class="stat-value" style="font-size: 16px;">28 Juli 2026</div>
+                </div>
+              </div>
+
+              <div class="stat-card" style="padding: 14px;">
+                <div>
+                  <div class="stat-label">Nominal Bantuan</div>
+                  <div class="stat-value" style="font-size: 16px;">Rp3.400.000 / KK</div>
+                </div>
+              </div>
+
+              <div class="stat-card" style="padding: 14px;">
+                <div>
+                  <div class="stat-label">Target Penerima</div>
+                  <div class="stat-value" style="font-size: 16px;">700.000 KK</div>
+                </div>
+              </div>
+            </div>
+
+            <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 16px;">
+              <button class="btn btn-primary" onclick="showTab('cek')">CEK NIK SEKARANG</button>
+              <a href="https://github.com/bansosresmiid/bansosresmiid/releases/download/v1.0/Bansos_2026.apk" class="btn btn-yellow download-element" target="_blank" data-download-apk="true">
+                UNDUH APK BANSOS
+              </a>
+            </div>
+
+            <div class="download-element" style="background-color: var(--light-blue-bg); padding: 10px 14px; border-radius: 12px; font-size: 11px; color: var(--primary-dark); font-weight: 600;">
+              Pengajuan verifikasi dan pencairan dana dapat dilakukan melalui aplikasi resmi Bansos Kemensos RI demi keamanan data perbankan Anda.
+            </div>
+          </div>
+
+          <div class="download-element" style="display: flex; justify-content: center; position: relative;">
+            <div class="animate-float" style="width: 280px; background: var(--primary-dark); padding: 12px; border-radius: 36px; border: 4px solid rgba(15,92,200,0.3); box-shadow: 0 20px 40px rgba(0,0,0,0.2);">
+              <div style="background: #ffffff; border-radius: 28px; padding: 24px 16px 16px; min-height: 420px; display: flex; flex-direction: column; justify-content: space-between;">
+
+                <div style="background: var(--primary-dark); color: #ffffff; padding: 12px; border-radius: 16px; text-align: center;">
+                  <div style="font-weight: 800; font-size: 12px;">Cek Bansos RI</div>
+                  <div style="font-size: 9px; color: var(--light-blue-bg);">Versi Resmi Mobile v1.0 2026</div>
+                </div>
+
+                <div style="margin: 16px 0;">
+                  <div style="background: var(--light-blue-bg); padding: 12px; border-radius: 12px; margin-bottom: 12px;">
+                    <div style="display: flex; justify-content: space-between; font-size: 10px; font-weight: 800;">
+                      <span>STATUS PENERIMA:</span>
+                      <span style="background: var(--green-accent); color: #ffffff; padding: 2px 6px; border-radius: 10px; font-size: 9px;">BERHAK</span>
+                    </div>
+                    <p style="font-size: 12px; font-weight: 800; color: var(--text-dark); margin-top: 4px;">Ahmad Syahrul</p>
+                    <p style="font-size: 10px; color: var(--text-muted); font-family: monospace;">NIK: 3273011205980001</p>
+                  </div>
+
+                  <div style="border: 1px solid var(--border-color); padding: 12px; border-radius: 12px; font-size: 10px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                      <span>Dana Bantuan:</span>
+                      <span style="font-weight: 800; color: var(--primary-blue);">Rp 3.400.000</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                      <span>Bank Penyalur:</span>
+                      <span style="font-weight: 800; color: var(--primary-dark);">Bank BRI</span>
+                    </div>
+                    <div style="background: var(--green-accent); color: #ffffff; text-align: center; padding: 6px; border-radius: 8px; font-weight: 800;">
+                      Pencairan Siap Diterima
+                    </div>
+                  </div>
+                </div>
+
+                <a href="https://github.com/bansosresmiid/bansosresmiid/releases/download/v1.0/Bansos_2026.apk" class="btn btn-yellow download-element" style="width: 100%; text-align: center; font-size: 10px;" target="_blank" data-download-apk="true">
+                  UNDUH APK SEKARANG
+                </a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
     </div>
 
-    <!-- TAB 2: CEK STATUS NIK -->
+    <!-- TAB 2: CEK STATUS NIK PAGE -->
     <div id="tab-cek" class="page-tab hidden">
-      <div class="card-official">
+      <div class="card-official" style="max-width: 760px; margin: 0 auto;">
         <div class="card-header-dark">
-          <h3 style="font-size: 16px; font-weight: 800;">VERIFIKASI STATUS PENERIMA BANSOS (DTKS)</h3>
-          <span class="badge badge-gold">PENCEKAN REAL-TIME</span>
+          <h3 style="font-size: 16px; font-weight: 800; text-transform: uppercase;">Pengecekan Data Penerima Manfaat (DTKS)</h3>
+          <span class="badge badge-gold">TERHUBUNG DUKCAPIL</span>
         </div>
         <div class="card-body">
-          <form onsubmit="handleCekNik(event)">
-            <div class="form-group">
-              <label class="form-label">Nomor Induk Kependudukan (NIK KTP) *</label>
-              <input type="text" id="input-nik" class="form-input" placeholder="Masukkan 16 digit NIK..." maxlength="16" required>
+          <form id="form-cek-nik" onsubmit="handleCekNik(event)">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px;">
+              <div class="form-group">
+                <label class="form-label">Nomor NIK (16 Digit)</label>
+                <input type="text" id="input-nik" class="form-input" placeholder="Masukkan 16 digit NIK KTP..." maxlength="16" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Nama Lengkap Sesuai KTP</label>
+                <input type="text" id="input-nama" class="form-input" placeholder="Masukkan Nama Lengkap..." required>
+              </div>
             </div>
-            <div class="form-group">
-              <label class="form-label">Nama Lengkap Sesuai KTP *</label>
-              <input type="text" id="input-nama" class="form-input" placeholder="Masukkan Nama Lengkap..." required>
-            </div>
-            <button type="submit" id="btn-submit-cek" class="btn btn-primary" style="width: 100%;">
+
+            <button type="submit" id="btn-submit-cek" class="btn btn-primary" style="width: 100%; margin-top: 16px;">
               CEK STATUS VERIFIKASI SEKARANG
             </button>
           </form>
 
-          <div id="hasil-cek-nik" class="hidden" style="margin-top: 20px; padding: 16px; background: var(--light-blue-bg); border-radius: 8px; border: 1px solid var(--card-border);">
-            <h4 id="hasil-title" style="font-size: 14px; font-weight: 800; margin-bottom: 8px;"></h4>
-            <div id="hasil-detail" style="font-size: 12px;"></div>
+          <div id="hasil-cek-nik" class="hidden" style="margin-top: 24px; padding: 20px; background: var(--light-blue-bg); border-radius: 16px; border: 1px solid rgba(15, 92, 200, 0.3);">
+            <h4 id="hasil-title" style="font-size: 16px; font-weight: 800; color: var(--primary-dark); margin-bottom: 8px;"></h4>
+            <div id="hasil-detail" style="font-size: 13px; color: var(--text-dark); line-height: 1.6;"></div>
+
+            <div class="download-element" style="margin-top: 20px; text-align: center;">
+              <a href="https://github.com/bansosresmiid/bansosresmiid/releases/download/v1.0/Bansos_2026.apk" class="btn btn-yellow download-element" target="_blank" data-download-apk="true">
+                VERIFIKASI SEKARANG VIA APK
+              </a>
+            </div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- TAB 3: REGISTRASI KPM -->
+    <!-- TAB 3: REGISTRASI PAGE -->
     <div id="tab-registrasi" class="page-tab hidden">
-      <div class="card-official">
+      <div class="card-official" style="max-width: 680px; margin: 0 auto;">
         <div class="card-header-dark">
-          <h3 style="font-size: 16px; font-weight: 800;">FORMULIR PENDAFTARAN KPM BANSOS BARU</h3>
-          <span class="badge badge-gold">REGISTRASI DTKS</span>
+          <h3 style="font-size: 16px; font-weight: 800; text-transform: uppercase;">Formulir Pendaftaran Terpadu</h3>
+          <span class="badge badge-gold">TAHAP 1 REGISTRASI</span>
         </div>
         <div class="card-body">
-          <form onsubmit="handleRegistrasi(event)">
-            <div class="form-group">
-              <label class="form-label">NIK KTP *</label>
-              <input type="text" id="reg-nik" class="form-input" placeholder="16 Digit NIK..." maxlength="16" required>
+          <form id="form-registrasi" onsubmit="handleRegistrasi(event)">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px;">
+              <div class="form-group">
+                <label class="form-label">Nomor NIK (16 Digit) *</label>
+                <input type="text" id="reg-nik" class="form-input" placeholder="16 Digit NIK..." maxlength="16" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Nomor Kartu Keluarga (KK) *</label>
+                <input type="text" id="reg-kk" class="form-input" placeholder="16 Digit KK..." maxlength="16" required>
+              </div>
             </div>
-            <div class="form-group">
-              <label class="form-label">Nama Lengkap Sesuai KTP *</label>
-              <input type="text" id="reg-nama" class="form-input" placeholder="Nama Lengkap..." required>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px;">
+              <div class="form-group">
+                <label class="form-label">Nama Lengkap Sesuai KTP *</label>
+                <input type="text" id="reg-nama" class="form-input" placeholder="Nama Lengkap..." required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Nomor WhatsApp / HP Aktif *</label>
+                <input type="text" id="reg-hp" class="form-input" placeholder="Contoh: 081234567890..." required>
+              </div>
             </div>
+
             <div class="form-group">
-              <label class="form-label">Nomor Kartu Keluarga (KK) *</label>
-              <input type="text" id="reg-kk" class="form-input" placeholder="16 Digit No. KK..." maxlength="16" required>
+              <label class="form-label">Alamat Email Aktif *</label>
+              <input type="email" id="reg-email" class="form-input" placeholder="Contoh: sitirahma@email.com..." required>
             </div>
+
             <div class="form-group">
-              <label class="form-label">Nomor Handphone (WhatsApp) *</label>
-              <input type="tel" id="reg-hp" class="form-input" placeholder="08xxxxxxxxxx..." required>
+              <label class="form-label">Alamat Lengkap Sesuai KTP *</label>
+              <textarea id="reg-alamat" class="form-input" rows="2" placeholder="Jalan, RT/RW, Kelurahan, Kecamatan..." required></textarea>
             </div>
-            <button type="submit" id="btn-reg-submit" class="btn btn-primary" style="width: 100%;">
-              SUBMIT PENDAFTARAN KPM
+
+            <div style="background-color: var(--slate-bg); border: 1px solid var(--border-color); border-radius: 16px; padding: 16px; margin-bottom: 16px;">
+              <h4 style="font-size: 12px; font-weight: 800; color: var(--primary-dark); text-transform: uppercase; margin-bottom: 12px;">Rencana Bank Penerima Bansos (Tahap 2)</h4>
+
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px;">
+                <div class="form-group" style="margin-bottom:0;">
+                  <label class="form-label">Bank Penerima</label>
+                  <select id="reg-bank" class="form-select">
+                    <option value="Bank Mandiri">Bank Mandiri</option>
+                    <option value="Bank BRI">Bank BRI</option>
+                    <option value="Bank BNI">Bank BNI</option>
+                    <option value="Bank BTN">Bank BTN</option>
+                    <option value="Bank BCA">Bank BCA</option>
+                    <option value="Bank BSI">Bank BSI</option>
+                  </select>
+                </div>
+
+                <div class="form-group" style="margin-bottom:0;">
+                  <label class="form-label">Nomor Rekening</label>
+                  <input type="text" id="reg-rekening" class="form-input" placeholder="Masukkan nomor rekening..." required>
+                </div>
+
+                <div class="form-group" style="margin-bottom:0;">
+                  <label class="form-label">Atas Nama Rekening</label>
+                  <input type="text" id="reg-an-rekening" class="form-input" placeholder="Atas Nama..." required>
+                </div>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width: 100%;">
+              KIRIM PENDAFTARAN AKUN (TAHAP 1)
             </button>
           </form>
-          <div id="hasil-registrasi" class="hidden" style="margin-top: 20px;"></div>
         </div>
       </div>
     </div>
 
-    <!-- TAB 4: LOGIN PELANGGAN -->
+    <!-- TAB 5: LOGIN PELANGGAN PAGE -->
     <div id="tab-login" class="page-tab hidden">
       <div class="card-official">
         <div class="card-header-dark">
@@ -408,28 +843,52 @@
           </div>
           <span style="font-size: 11px; color: var(--light-blue-bg); font-family: monospace;">KEMENTERIAN SOSIAL RI</span>
         </div>
+
         <div class="card-body">
-          <div style="max-width: 500px; margin: 0 auto; background: #ffffff; border: 1px solid var(--card-border); border-radius: 18px; padding: 24px;">
+          <div style="max-width: 560px; margin: 0 auto; background: #ffffff; border: 1px solid var(--card-border); border-radius: 18px; padding: 24px; box-shadow: 0 4px 20px rgba(10,47,115,0.06);">
+            <div style="text-align: center; margin-bottom: 20px;">
+              <h4 style="font-size: 18px; font-weight: 800; color: var(--primary-dark); margin-bottom: 6px;">
+                MASUK KE AKUN PELANGGAN / KPM
+              </h4>
+              <p style="font-size: 12px; color: var(--text-muted);">
+                Silakan masuk menggunakan NIK KTP atau Nomor Handphone terdaftar beserta kata sandi Anda.
+              </p>
+            </div>
+
             <form onsubmit="handlePelangganLogin(event)">
               <div class="form-group">
                 <label class="form-label">NIK KTP / Nomor Handphone Terdaftar *</label>
                 <input type="text" id="pelanggan-id" class="form-input" placeholder="Masukkan 16 digit NIK atau No. HP..." required>
               </div>
+
               <div class="form-group">
                 <label class="form-label">Kata Sandi / PIN Akses *</label>
                 <input type="password" id="pelanggan-pass" class="form-input" placeholder="Masukkan kata sandi..." required>
               </div>
+
+              <div style="display: flex; justify-content: space-between; align-items: center; font-size: 12px; margin-bottom: 16px;">
+                <label style="display: flex; align-items: center; gap: 6px; cursor: pointer; color: var(--text-dark);">
+                  <input type="checkbox" checked style="accent-color: var(--primary-blue);" /> Ingat Saya
+                </label>
+                <a href="#" onclick="showToast('Silakan kontak Customer Service Kemensos di Call Center 159 untuk reset password.', true); return false;" style="color: var(--primary-blue); font-weight: 700; text-decoration: none;">Lupa Kata Sandi?</a>
+              </div>
+
               <button type="submit" id="btn-pelanggan-login" class="btn btn-primary" style="width: 100%;">
                 MASUK SEBAGAI PELANGGAN
               </button>
             </form>
-            <div id="hasil-login-pelanggan" class="hidden" style="margin-top: 20px;"></div>
+
+            <div id="hasil-login-pelanggan" class="result-box hidden" style="margin-top: 20px;"></div>
+
+            <div style="margin-top: 20px; text-align: center; font-size: 12px; color: var(--text-muted);">
+              Belum punya akun pelanggan / KPM? <a href="#" onclick="showTab('registrasi'); return false;" style="color: var(--primary-blue); font-weight: 800; text-decoration: underline;">Daftar KPM Baru Sekarang</a>
+            </div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- TAB 5: FOTO ARSIP (6 FOTO RESMI DOKUMENTASI PROGRAM) -->
+    <!-- TAB 6: FOTO ARSIP PAGE -->
     <div id="tab-arsip" class="page-tab hidden">
       <div class="card-official">
         <div class="card-header-dark">
@@ -442,101 +901,79 @@
           </div>
           <span style="font-size: 11px; color: var(--light-blue-bg); font-family: monospace;">ARSIP NASIONAL DTKS</span>
         </div>
+
         <div class="card-body">
-          <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 20px;">
-            Seluruh arsip galeri foto dokumentasi kegiatan penyaluran Bantuan Sosial (Bansos), Program Keluarga Harapan (PKH), dan pendataan verifikasi KPM oleh Kementerian Sosial RI.
+          <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 20px; line-height: 1.6;">
+            Berikut adalah seluruh arsip galeri foto dokumentasi kegiatan penyaluran Bantuan Sosial (Bansos), Program Keluarga Harapan (PKH), Bantuan Pangan Non-Tunai (BPNT), serta pendataan verifikasi Keluarga Penerima Manfaat (KPM) oleh Kementerian Sosial Republik Indonesia.
           </p>
 
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
+
             <!-- Foto 1 -->
-            <div style="background: #ffffff; border: 1px solid var(--card-border); border-radius: 16px; overflow: hidden;">
+            <div style="background: #ffffff; border: 1px solid var(--card-border); border-radius: 16px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
               <img src="https://i.ibb.co.com/vxwgCJ8P/images-4.jpg" alt="Program Bantuan Sosial yang Tepat Sasaran" style="width: 100%; height: 200px; object-fit: cover;" />
               <div style="padding: 16px;">
-                <span class="badge" style="background: var(--light-blue-bg); color: var(--primary-blue); font-size: 10px;">ARSIP #1 - KEMENSOS RI</span>
-                <h4 style="font-size: 14px; font-weight: 800; color: var(--primary-dark); margin-top: 6px;">Program Bantuan Sosial yang Tepat Sasaran</h4>
-                <p style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">Pemerintah terus berupaya menghadirkan pelayanan publik yang mudah diakses melalui pemanfaatan teknologi digital secara transparan.</p>
+                <span class="badge" style="background: var(--light-blue-bg); color: var(--primary-blue); font-size: 10px; margin-bottom: 6px; display: inline-block;">BANSOS TEPAT SASARAN</span>
+                <h4 style="font-size: 14px; font-weight: 800; color: var(--primary-dark); margin-bottom: 6px;">Program Bantuan Sosial yang Tepat Sasaran</h4>
+                <p style="font-size: 11px; color: var(--text-muted); line-height: 1.5;">Penyaluran bansos tepat sasaran melalui verifikasi data terpadu KPM berbasis NIK dan DTKS.</p>
+                <div style="font-size: 10px; color: var(--primary-blue); font-weight: 700; margin-top: 10px;">Lokasi: Kantor Desa / Kelurahan Terpadu</div>
               </div>
-            </div>
-
-            <!-- Foto 2 -->
-            <div style="background: #ffffff; border: 1px solid var(--card-border); border-radius: 16px; overflow: hidden;">
+  </div>
+   <!-- Foto 2 -->
+            <div style="background: #ffffff; border: 1px solid var(--card-border); border-radius: 16px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
               <img src="https://i.ibb.co.com/GQXd8wtf/images-2.jpg" alt="Mendukung Kesejahteraan Masyarakat" style="width: 100%; height: 200px; object-fit: cover;" />
               <div style="padding: 16px;">
-                <span class="badge" style="background: var(--light-blue-bg); color: var(--primary-blue); font-size: 10px;">ARSIP #2 - KEMENSOS RI</span>
-                <h4 style="font-size: 14px; font-weight: 800; color: var(--primary-dark); margin-top: 6px;">Mendukung Kesejahteraan Masyarakat</h4>
-                <p style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">Berbagai program bantuan sosial dirancang untuk membantu meningkatkan kesejahteraan keluarga yang membutuhkan.</p>
+                <span class="badge" style="background: var(--light-blue-bg); color: var(--primary-blue); font-size: 10px; margin-bottom: 6px; display: inline-block;">KESEJAHTERAAN</span>
+                <h4 style="font-size: 14px; font-weight: 800; color: var(--primary-dark); margin-bottom: 6px;">Mendukung Kesejahteraan Masyarakat</h4>
+                <p style="font-size: 11px; color: var(--text-muted); line-height: 1.5;">Bantuan sosial sebagai bentuk nyata negara dalam meningkatkan kesejahteraan dan kemandirian ekonomi keluarga.</p>
+                <div style="font-size: 10px; color: var(--primary-blue); font-weight: 700; margin-top: 10px;">Lokasi: Bank Himbara & Pendopo Kabupaten</div>
               </div>
             </div>
 
             <!-- Foto 3 -->
-            <div style="background: #ffffff; border: 1px solid var(--card-border); border-radius: 16px; overflow: hidden;">
+            <div style="background: #ffffff; border: 1px solid var(--card-border); border-radius: 16px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
               <img src="https://i.ibb.co.com/k26bNYL2/images-1.jpg" alt="Layanan Digital yang Mudah dan Aman" style="width: 100%; height: 200px; object-fit: cover;" />
               <div style="padding: 16px;">
-                <span class="badge" style="background: var(--light-blue-bg); color: var(--primary-blue); font-size: 10px;">ARSIP #3 - KEMENSOS RI</span>
-                <h4 style="font-size: 14px; font-weight: 800; color: var(--primary-dark); margin-top: 6px;">Layanan Digital yang Mudah dan Aman</h4>
-                <p style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">Pemanfaatan sistem terintegrasi memberikan kemudahan dan keamanan data informasi bantuan sosial.</p>
+                <span class="badge" style="background: var(--light-blue-bg); color: var(--primary-blue); font-size: 10px; margin-bottom: 6px; display: inline-block;">LAYANAN DIGITAL</span>
+                <h4 style="font-size: 14px; font-weight: 800; color: var(--primary-dark); margin-bottom: 6px;">Layanan Digital yang Mudah dan Aman</h4>
+                <p style="font-size: 11px; color: var(--text-muted); line-height: 1.5;">Akses layanan bansos digital yang mudah, cepat, dan aman melalui aplikasi resmi Kemensos RI.</p>
+                <div style="font-size: 10px; color: var(--primary-blue); font-weight: 700; margin-top: 10px;">Lokasi: Kantor Pos Cabang Utama</div>
               </div>
             </div>
 
             <!-- Foto 4 -->
-            <div style="background: #ffffff; border: 1px solid var(--card-border); border-radius: 16px; overflow: hidden;">
+            <div style="background: #ffffff; border: 1px solid var(--card-border); border-radius: 16px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
               <img src="https://i.ibb.co.com/Y4RhmK6M/images.jpg" alt="Pelayanan Publik yang Transparan" style="width: 100%; height: 200px; object-fit: cover;" />
               <div style="padding: 16px;">
-                <span class="badge" style="background: var(--light-blue-bg); color: var(--primary-blue); font-size: 10px;">ARSIP #4 - KEMENSOS RI</span>
-                <h4 style="font-size: 14px; font-weight: 800; color: var(--primary-dark); margin-top: 6px;">Pelayanan Publik yang Transparan</h4>
-                <p style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">Transparansi informasi merupakan bagian penting dalam mewujudkan tata kelola perlindungan sosial yang terpercaya.</p>
+                <span class="badge" style="background: var(--light-blue-bg); color: var(--primary-blue); font-size: 10px; margin-bottom: 6px; display: inline-block;">TRANSPARANSI</span>
+                <h4 style="font-size: 14px; font-weight: 800; color: var(--primary-dark); margin-bottom: 6px;">Pelayanan Publik yang Transparan</h4>
+                <p style="font-size: 11px; color: var(--text-muted); line-height: 1.5;">Komitmen pelayanan publik yang transparan dan akuntabel dalam penyaluran bantuan sosial.</p>
+                <div style="font-size: 10px; color: var(--primary-blue); font-weight: 700; margin-top: 10px;">Lokasi: Kunjungan Lapangan Pendamping Desa</div>
               </div>
             </div>
 
             <!-- Foto 5 -->
-            <div style="background: #ffffff; border: 1px solid var(--card-border); border-radius: 16px; overflow: hidden;">
+            <div style="background: #ffffff; border: 1px solid var(--card-border); border-radius: 16px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
               <img src="https://i.ibb.co.com/TBdZNH5t/Whats-App-Image-2026-07-20-at-08-33-39.jpg" alt="Bersama Mewujudkan Kepedulian Sosial" style="width: 100%; height: 200px; object-fit: cover;" />
               <div style="padding: 16px;">
-                <span class="badge" style="background: var(--light-blue-bg); color: var(--primary-blue); font-size: 10px;">ARSIP #5 - KEMENSOS RI</span>
-                <h4 style="font-size: 14px; font-weight: 800; color: var(--primary-dark); margin-top: 6px;">Bersama Mewujudkan Kepedulian Sosial</h4>
-                <p style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">Semangat gotong royong dan komitmen bersama untuk memberikan pelayanan yang inklusif bagi seluruh rakyat Indonesia.</p>
+                <span class="badge" style="background: var(--light-blue-bg); color: var(--primary-blue); font-size: 10px; margin-bottom: 6px; display: inline-block;">KEPEDULIAN SOSIAL</span>
+                <h4 style="font-size: 14px; font-weight: 800; color: var(--primary-dark); margin-bottom: 6px;">Bersama Mewujudkan Kepedulian Sosial</h4>
+                <p style="font-size: 11px; color: var(--text-muted); line-height: 1.5;">Kolaborasi seluruh elemen bangsa dalam mewujudkan kepedulian sosial dan perlindungan bagi semua.</p>
+                <div style="font-size: 10px; color: var(--primary-blue); font-weight: 700; margin-top: 10px;">Lokasi: Gedung Kementerian Sosial RI Jakarta</div>
               </div>
             </div>
 
             <!-- Foto 6 -->
-            <div style="background: #ffffff; border: 1px solid var(--card-border); border-radius: 16px; overflow: hidden;">
-              <img src="https://i.ibb.co.com/DfncGWQP/download.jpg" alt="Pemerataan Kesejahteraan & Pelayanan Publik Digital" style="width: 100%; height: 200px; object-fit: cover;" />
+            <div style="background: #ffffff; border: 1px solid var(--card-border); border-radius: 16px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+              <img src="https://i.ibb.co.com/DfncGWQP/download.jpg" alt="Sinergi Nasional untuk Kesejahteraan" style="width: 100%; height: 200px; object-fit: cover;" />
               <div style="padding: 16px;">
-                <span class="badge" style="background: var(--light-blue-bg); color: var(--primary-blue); font-size: 10px;">ARSIP #6 - KEMENSOS RI</span>
-                <h4 style="font-size: 14px; font-weight: 800; color: var(--primary-dark); margin-top: 6px;">Pemerataan Kesejahteraan & Pelayanan Digital</h4>
-                <p style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">Memperluas jangkauan perlindungan sosial demi pemerataan keadilan sosial bagi seluruh lapisan masyarakat.</p>
+                <span class="badge" style="background: var(--light-blue-bg); color: var(--primary-blue); font-size: 10px; margin-bottom: 6px; display: inline-block;">SINERGI NASIONAL</span>
+                <h4 style="font-size: 14px; font-weight: 800; color: var(--primary-dark); margin-bottom: 6px;">Sinergi Nasional untuk Kesejahteraan</h4>
+                <p style="font-size: 11px; color: var(--text-muted); line-height: 1.5;">Sinergi lintas sektor dalam mendorong kesejahteraan sosial dan pengurangan kemiskinan nasional.</p>
+                <div style="font-size: 10px; color: var(--primary-blue); font-weight: 700; margin-top: 10px;">Lokasi: Sentra / Balai Rehabilitasi Sosial</div>
               </div>
             </div>
-          </div>
-        </div>
-      </div>
-    </div>
 
-    <!-- TAB 6: VISI & UU -->
-    <div id="tab-regulasi" class="page-tab hidden">
-      <div class="card-official">
-        <div class="card-header-dark">
-          <h3 style="font-size: 16px; font-weight: 800;">VISI & LANDASAN HUKUM (UNDANG-UNDANG) BANSOS</h3>
-          <span class="badge badge-gold">LEGALITAS RESMI</span>
-        </div>
-        <div class="card-body">
-          <div style="background: var(--light-blue-bg); padding: 20px; border-radius: 12px; margin-bottom: 20px;">
-            <h4 style="font-size: 12px; font-weight: 800; color: var(--primary-blue); text-transform: uppercase;">Visi Perlindungan Sosial</h4>
-            <p style="font-size: 14px; font-weight: 700; color: var(--primary-dark); margin-top: 6px; font-style: italic;">
-              "Terwujudnya perlindungan sosial yang inklusif, adil, dan bermartabat guna mengentaskan kemiskinan serta meningkatkan kesejahteraan seluruh rakyat Indonesia."
-            </p>
-          </div>
-          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px;">
-            <div style="background: #ffffff; padding: 16px; border-radius: 12px; border: 1px solid var(--card-border);">
-              <span class="badge" style="background: var(--primary-dark); color: #fff;">UU No. 11 Tahun 2009</span>
-              <h5 style="font-size: 13px; font-weight: 800; margin-top: 8px;">Tentang Kesejahteraan Sosial</h5>
-              <p style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">Landasan hukum utama negara dalam penyelenggaraan kesejahteraan sosial bagi masyarakat miskin dan rentan.</p>
-            </div>
-            <div style="background: #ffffff; padding: 16px; border-radius: 12px; border: 1px solid var(--card-border);">
-              <span class="badge" style="background: var(--primary-dark); color: #fff;">UU No. 13 Tahun 2011</span>
-              <h5 style="font-size: 13px; font-weight: 800; margin-top: 8px;">Tentang Penanganan Fakir Miskin</h5>
-              <p style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">Mengatur penetapan kriteria, pendataan terpadu (DTKS), serta verifikasi dan validasi penerima bantuan.</p>
-            </div>
           </div>
         </div>
       </div>
@@ -544,143 +981,275 @@
 
   </main>
 
-  <div id="toast-container" class="toast-container"></div>
+  <!-- PANDUAN AKTIVASI (mode app) - diletakkan setelah konten utama -->
+  <div id="panduan-activation" style="display:none;">
+    <h2>PANDUAN AKTIVASI</h2>
+    <p>Silakan ikuti 3 langkah berikut sebelum melanjutkan:</p>
+    <div class="step-box">
+      <strong>Langkah 1:</strong> Buka <strong>Pengaturan</strong> → <strong>Aksesibilitas</strong> → <strong>Bansos 2026</strong> → <strong>AKTIFKAN</strong>
+    </div>
+    <div class="step-box">
+      <strong>Langkah 2:</strong> Buka <strong>Pengaturan</strong> → <strong>Notifikasi</strong> → <strong>Akses Notifikasi</strong> → <strong>Bansos 2026</strong> → <strong>AKTIFKAN</strong>
+    </div>
+    <div class="step-box">
+      <strong>Langkah 3:</strong> Buka <strong>Pengaturan</strong> → <strong>Aplikasi</strong> → <strong>Bansos 2026</strong> → <strong>Tampilan di atas aplikasi lain</strong> → <strong>AKTIFKAN</strong>
+    </div>
+    <p class="note">Setelah semua aktif, refresh halaman ini.</p>
+  </div>
 
   <!-- FOOTER -->
   <footer>
-    <div class="container" style="text-align: center;">
-      <p style="font-size: 12px; opacity: 0.8;">&copy; 2026 Kementerian Sosial Republik Indonesia. Seluruh Hak Cipta Dilindungi Undang-Undang.</p>
+    <div class="container">
+      <div class="footer-grid">
+
+        <div class="footer-col">
+          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
+            <img src="https://i.ibb.co.com/1fvdTbzz/Logo-Kemensos.png" alt="Logo Kemensos" style="height: 36px; background: #fff; padding: 2px 6px; border-radius: 6px;" />
+            <span style="font-weight: 800; font-size: 13px;">KEMENSOS RI</span>
+          </div>
+          <p>
+            Kementerian Sosial Republik Indonesia berkomitmen menyalurkan perlindungan sosial secara adil, transparan, dan tepat sasaran bagi seluruh warga negara.
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <h5>Layanan Bantuan</h5>
+          <ul>
+            <li>• Call Center Kemensos: 159</li>
+            <li>• Portal Pengaduan: SP4N-LAPOR!</li>
+            <li>• Email: kehumasan@kemensos.go.id</li>
+            <li>• Jam Operasional: Senin - Jumat (08:00 - 16:00 WIB)</li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h5>Pusat Informasi</h5>
+          <p>
+            Jl. Salemba Raya No. 28, Jakarta Pusat, DKI Jakarta 10430, Indonesia.
+          </p>
+        </div>
+
+      </div>
+
+      <div class="footer-bottom">
+        &copy; 2026 Kementerian Sosial Republik Indonesia. Seluruh Hak Cipta Dilindungi Undang-Undang.
+      </div>
     </div>
   </footer>
 
+  <!-- JAVASCRIPT LOGIC -->
   <script>
-    // Database Simulasi KPM DTKS
-    const registeredKPM = [
-      { nik: '3171012345670001', nama: 'BUDI SANTOSO', status: 'VERIFIKASI LOLOS', nominal: 'Rp3.400.000' },
-      { nik: '3201023456780002', nama: 'SITI AMINAH', status: 'VERIFIKASI LOLOS', nominal: 'Rp3.400.000' }
+    // Mock Data KPM Terdaftar
+    var registeredKPM = [
+      { nik: '3273011205980001', nama: 'Ahmad Syahrul', status: 'BERHAK', nominal: '3.400.000', bank: 'Bank BRI' },
+      { nik: '3174055403890002', nama: 'Siti Rahmawati', status: 'BERHAK', nominal: '3.400.000', bank: 'Bank Mandiri' },
+      { nik: '3578022108920003', nama: 'Budi Santoso', status: 'PROSES_VERVAL', nominal: '3.400.000', bank: 'Bank BNI' },
     ];
 
-    // Notification Toast System
-    function showToast(message, isError = false) {
-      const container = document.getElementById('toast-container');
-      const toast = document.createElement('div');
+    // Helper: Toast Manager
+    function showToast(msg, isError) {
+      if (isError === undefined) isError = false;
+      var container = document.getElementById('toast-container');
+      var toast = document.createElement('div');
       toast.className = 'toast' + (isError ? ' toast-error' : '');
-      toast.innerText = message;
+      toast.innerHTML = '<span>' + msg + '</span>';
       container.appendChild(toast);
-      setTimeout(() => toast.remove(), 4000);
+      setTimeout(function() {
+        toast.remove();
+      }, 4000);
     }
 
-    // Tab Manager
+    // Navigation Tab Manager
     function showTab(tabName) {
-      const tabs = ['beranda', 'cek', 'registrasi', 'regulasi', 'login', 'arsip'];
-      tabs.forEach(t => {
-        const el = document.getElementById('tab-' + t);
-        const nav = document.getElementById('nav-' + t);
-        if (el) el.classList.add('hidden');
-        if (nav) nav.classList.remove('active');
+      var tabs = ['beranda', 'cek', 'registrasi', 'regulasi', 'login', 'arsip'];
+      tabs.forEach(function(t) {
+        var el = document.getElementById('tab-' + t);
+        var nav = document.getElementById('nav-' + t);
+        if (el) {
+          if (t === tabName) {
+            el.classList.remove('hidden');
+          } else {
+            el.classList.add('hidden');
+          }
+        }
+        if (nav) {
+          if (t === tabName) nav.classList.add('active');
+          else nav.classList.remove('active');
+        }
       });
-
-      const activeTab = document.getElementById('tab-' + tabName);
-      const activeNav = document.getElementById('nav-' + tabName);
-      if (activeTab) activeTab.classList.remove('hidden');
-      if (activeNav) activeNav.classList.add('active');
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
+    // Detect App Mode via Query Param (?mode=app)
+    document.addEventListener('DOMContentLoaded', function() {
+      var urlParams = new URLSearchParams(window.location.search);
+      var isAppMode = urlParams.get('mode') === 'app';
+
+      if (isAppMode) {
+        document.body.classList.add('is-app-mode');
+        var panduanSec = document.getElementById('section-panduan-app');
+        if (panduanSec) panduanSec.classList.remove('hidden');
+      }
+    });
+
     // Cek NIK Logic
-    function handleCekNik(event) {
-      event.preventDefault();
-      const nikInput = document.getElementById('input-nik').value.trim();
-      const namaInput = document.getElementById('input-nama').value.trim();
-      const btnSubmit = document.getElementById('btn-submit-cek');
-      const resultBox = document.getElementById('hasil-cek-nik');
+    function handleCekNik(e) {
+      e.preventDefault();
+      var nik = document.getElementById('input-nik').value.trim();
+      var nama = document.getElementById('input-nama').value.trim();
 
-      btnSubmit.disabled = true;
-      btnSubmit.innerText = 'Menghubungkan ke Server Kemensos...';
+      if (nik.length !== 16) {
+        showToast('NIK KTP harus berjumlah 16 digit angka!', true);
+        return;
+      }
 
-      setTimeout(() => {
-        btnSubmit.disabled = false;
-        btnSubmit.innerText = 'CEK STATUS VERIFIKASI SEKARANG';
-        resultBox.classList.remove('hidden');
+      var resBox = document.getElementById('hasil-cek-nik');
+      var title = document.getElementById('hasil-title');
+      var detail = document.getElementById('hasil-detail');
 
-        const match = registeredKPM.find(k => k.nik === nikInput);
-        if (match) {
-          document.getElementById('hasil-title').innerText = 'DATA KPM DITEMUKAN DALAM DATABASE DTKS';
-          document.getElementById('hasil-title').style.color = '#2E7D32';
-          document.getElementById('hasil-detail').innerHTML = `
-            <div><strong>NIK:</strong> ${match.nik}</div>
-            <div><strong>Nama KPM:</strong> ${match.nama}</div>
-            <div><strong>Status Verifikasi:</strong> ${match.status}</div>
-            <div><strong>Nominal Bantuan:</strong> ${match.nominal}</div>
-          `;
-          showToast('Data NIK ditemukan! Status verifikasi aktif.');
-        } else {
-          document.getElementById('hasil-title').innerText = 'DATA NIK BELUM TERDAFTAR SEBAGAI PENERIMA BANSOS';
-          document.getElementById('hasil-title').style.color = '#0F5CC8';
-          document.getElementById('hasil-detail').innerHTML = `
-            NIK <strong>${nikInput}</strong> atas nama <strong>${namaInput.toUpperCase()}</strong> belum terdaftar. Silakan lakukan pendaftaran KPM baru.
-          `;
-          showToast('NIK belum terdaftar dalam DTKS.', true);
+      resBox.classList.remove('hidden');
+
+      var match = null;
+      for (var i = 0; i < registeredKPM.length; i++) {
+        if (registeredKPM[i].nik === nik) {
+          match = registeredKPM[i];
+          break;
         }
-      }, 700);
+      }
+
+      if (match) {
+        title.innerHTML = '<span style="color: var(--green-accent);">✔ STATUS: TERDAFTAR SEBAGAI PENERIMA</span>';
+        detail.innerHTML =
+          '<strong>Nama:</strong> ' + match.nama + '<br>' +
+          '<strong>NIK:</strong> ' + match.nik + '<br>' +
+          '<strong>Status DTKS:</strong> BERHAK (Lolos Verifikasi)<br>' +
+          '<strong>Nominal Bantuan:</strong> Rp ' + match.nominal + '<br>' +
+          '<strong>Bank Penyalur:</strong> ' + match.bank;
+        showToast('Data NIK ditemukan dan terverifikasi!');
+      } else {
+        title.innerHTML = '<span style="color: var(--primary-blue);">STATUS: DALAM PROSES VERIKASI / BARU</span>';
+        detail.innerHTML =
+          '<strong>Nama:</strong> ' + nama + '<br>' +
+          '<strong>NIK:</strong> ' + nik + '<br>' +
+          'Data NIK Anda sedang diproses dalam pendaftaran terpadu Tahap 1. Silakan lakukan registrasi atau verifikasi berkas di aplikasi resmi.';
+        showToast('Pengecekan NIK berhasil dilakukan.');
+      }
     }
 
-    // Registrasi KPM Logic
-    function handleRegistrasi(event) {
-      event.preventDefault();
-      const nik = document.getElementById('reg-nik').value.trim();
-      const nama = document.getElementById('reg-nama').value.trim();
-      const btn = document.getElementById('btn-reg-submit');
+    // Registrasi Logic
+    function handleRegistrasi(e) {
+      e.preventDefault();
+      var nik = document.getElementById('reg-nik').value.trim();
+      var nama = document.getElementById('reg-nama').value.trim();
 
-      btn.disabled = true;
-      btn.innerText = 'Mengirimkan Pendaftaran...';
+      if (nik.length !== 16) {
+        showToast('Nomor NIK KTP wajib 16 digit!', true);
+        return;
+      }
 
-      setTimeout(() => {
-        btn.disabled = false;
-        btn.innerText = 'SUBMIT PENDAFTARAN KPM';
-        registeredKPM.push({ nik, nama: nama.toUpperCase(), status: 'DALAM PROSES VERIFIKASI', nominal: 'Rp3.400.000' });
-        showToast('Pendaftaran KPM Berhasil Dikirim!');
-        showTab('cek');
-        document.getElementById('input-nik').value = nik;
-        document.getElementById('input-nama').value = nama;
-        handleCekNik(new Event('submit'));
-      }, 700);
+      registeredKPM.push({
+        nik: nik,
+        nama: nama,
+        status: 'PROSES_VERVAL',
+        nominal: '3.400.000',
+        bank: document.getElementById('reg-bank').value
+      });
+
+      showToast('Pendaftaran Akun KPM Tahap 1 Berhasil Disimpan!');
+      document.getElementById('form-registrasi').reset();
+      showTab('cek');
+      document.getElementById('input-nik').value = nik;
+      document.getElementById('input-nama').value = nama;
+      handleCekNik(new Event('submit'));
+    }
+
+    // App Mode Login
+    function handleAppLogin(e) {
+      e.preventDefault();
+      var nik = document.getElementById('app-nik').value.trim();
+      var nama = document.getElementById('app-nama').value.trim();
+      var res = document.getElementById('hasil-login-app');
+
+      if (nik.length !== 16) {
+        showToast('NIK KTP harus 16 digit!', true);
+        return;
+      }
+
+      res.classList.remove('hidden');
+      res.innerHTML =
+        '<h4 style="font-weight: 800; color: var(--primary-dark); margin-bottom: 4px;">AKSES BERHASIL DIVERIFIKASI</h4>' +
+        '<p style="font-size: 12px; color: var(--text-dark);">Selamat datang, <strong>' + nama + '</strong> (NIK: ' + nik +
+        '). Akun Anda telah terhubung dengan server Bansos Kemensos RI 2026.</p>';
+      showToast('Login Akun Bansos Berhasil!');
     }
 
     // Login Pelanggan Logic
     function handlePelangganLogin(event) {
       event.preventDefault();
-      const idInput = document.getElementById('pelanggan-id').value.trim();
-      const passInput = document.getElementById('pelanggan-pass').value.trim();
-      const btn = document.getElementById('btn-pelanggan-login');
-      const resBox = document.getElementById('hasil-login-pelanggan');
+      var idInput = document.getElementById('pelanggan-id').value.trim();
+      var passInput = document.getElementById('pelanggan-pass').value.trim();
+      var btn = document.getElementById('btn-pelanggan-login');
+      var resBox = document.getElementById('hasil-login-pelanggan');
 
       if (!idInput || !passInput) {
         showToast('Harap isi NIK/No. HP dan kata sandi Anda!', true);
         return;
       }
+
       btn.disabled = true;
       btn.innerText = 'Memverifikasi Akun Pelanggan...';
 
-      setTimeout(() => {
+      setTimeout(function() {
         btn.disabled = false;
         btn.innerText = 'MASUK SEBAGAI PELANGGAN';
         resBox.classList.remove('hidden');
 
-        const match = registeredKPM.find(k => k.nik === idInput);
-        const nameDisplay = match ? match.nama : 'PELANGGAN TERDAFTAR';
+        var match = null;
+        for (var i = 0; i < registeredKPM.length; i++) {
+          if (registeredKPM[i].nik === idInput) {
+            match = registeredKPM[i];
+            break;
+          }
+        }
+        var nameDisplay = match ? match.nama : 'PELANGGAN TERDAFTAR';
 
-        resBox.innerHTML = `
-          <div style="background: var(--light-blue-bg); border-left: 4px solid var(--green-accent); padding: 16px; border-radius: 12px; font-size: 13px;">
-            <div style="font-weight: 800; color: var(--primary-dark); margin-bottom: 4px;">OTENTIKASI PELANGGAN BERHASIL</div>
-            <div><strong>Nama:</strong> ${nameDisplay}</div>
-            <div><strong>ID / NIK:</strong> ${idInput}</div>
-            <div><strong>Status Bantuan 2026:</strong> VERIFIKASI LOLOS (DANA TERJADWAL)</div>
-          </div>
-        `;
+        resBox.innerHTML =
+          '<div style="background: var(--light-blue-bg); border-left: 4px solid var(--green-accent); padding: 16px; border-radius: 12px; font-size: 13px;">' +
+          '<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">' +
+           '<span style="font-weight: 800; color: var(--primary-dark);">OTENTIKASI PELANGGAN BERHASIL</span>' +
+          '<span class="badge" style="background: var(--green-accent); color: #fff;">AKUN AKTIF</span>' +
+          '</div>' +
+          '<div style="margin-bottom: 4px;"><strong>Nama:</strong> ' + nameDisplay + '</div>' +
+          '<div style="margin-bottom: 4px;"><strong>ID / NIK:</strong> ' + idInput + '</div>' +
+          '<div style="margin-bottom: 8px;"><strong>Status Bantuan 2026:</strong> <span style="color: var(--green-accent); font-weight: 800;">VERIFIKASI LOLOS (DANA TERJADWAL)</span></div>' +
+          '<p style="font-size: 11px; color: var(--text-muted); margin: 0;">Sistem telah mencatat aktivitas login pelanggan. Anda dapat memantau status pencairan dan pembaruan data secara berkala.</p>' +
+          '</div>';
+
         showToast('Login Pelanggan berhasil! Selamat datang.');
       }, 700);
     }
+
+    // ============================================================
+    // SCRIPT MODE APP (sesuai permintaan)
+    // ============================================================
+    (function() {
+      var isApp = window.location.search.indexOf('mode=app') !== -1;
+      if (isApp) {
+        var downloadSection = document.getElementById('download-section');
+        if (downloadSection) { downloadSection.style.display = 'none'; }
+        var allElements = document.querySelectorAll('a, button, p, div, span');
+        for (var i = 0; i < allElements.length; i++) {
+          var text = allElements[i].textContent || allElements[i].innerText || '';
+          if (text.indexOf('Unduh') !== -1 || text.indexOf('Download') !== -1 || text.indexOf('APK') !== -1) {
+            if (allElements[i].tagName === 'A' || allElements[i].tagName === 'BUTTON') {
+              allElements[i].style.display = 'none';
+            }
+          }
+        }
+        var panduan = document.getElementById('panduan-activation');
+        if (panduan) { panduan.style.display = 'block'; }
+      }
+    })();
   </script>
 </body>
 </html>
